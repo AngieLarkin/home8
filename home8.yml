@@ -29,6 +29,7 @@
     - name: package boxfuse
       command: mvn package -f '/root/boxfuse-sample-java-war-hello/pom.xml'
 
+## create web env and copy builded artifact to
 - name: webapp
   hosts: web
   become: yes
@@ -48,4 +49,4 @@
       synchronize:
         src: /root/boxfuse-sample-java-war-hello/target/hello-1.0.war
         dest: /var/lib/tomcat9/webapps
-      delegate_to: 10.129.0.20
+      delegate_to: 10.129.0.36
