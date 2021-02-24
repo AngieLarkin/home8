@@ -8,11 +8,15 @@
       apt:
         name: maven
         state: present
+
     - name: insure git is present
       apt:
         name: git
-        state: presenet
+        state: present
+
     - name: insure repo is cloned
       ansible.builtin.git:
+        #clone: yes
         dest: /root
+        #recursive: yes
         repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
