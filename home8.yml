@@ -12,7 +12,6 @@
       apt:
         name: git
         state: presenet
-
     - name: insure repo is cloned
       ansible.builtin.git:
         dest: /root
