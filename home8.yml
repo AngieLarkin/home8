@@ -23,11 +23,11 @@
     - name: Ensure boxfuse-sample-java-war-hello is present
       git:
         repo: "https://github.com/boxfuse/boxfuse-sample-java-war-hello.git"
-        dest: /home/boxfuse-sample-java-war-hello
+        dest: /root/boxfuse-sample-java-war-hello
         clone: yes
 
     - name: package boxfuse
-      command: mvn -f /home/boxfuse-sample-java-war-hello/pom.xml
+      command: mvn package -f '/root/boxfuse-sample-java-war-hello/pom.xml'
 
 - name: webapp
   hosts: web
@@ -46,6 +46,6 @@
 
     - name: Ensure webapp is moved
       synchronize:
-        src: /home/boxfuse/target/hello-1.0.war
+        src: /root/boxfuse-sample-java-war-hello/target/hello-1.0.war
         dest: /var/lib/tomcat9/webapps
       delegate_to: 10.129.0.20
