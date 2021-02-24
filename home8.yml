@@ -16,7 +16,7 @@
 
     - name: insure repo is cloned
       ansible.builtin.git:
-        #clone: yes
+        clone: yes
         dest: /root
         #recursive: yes
         repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
