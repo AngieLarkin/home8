@@ -1,22 +1,51 @@
 ---
+## create build env and build app artifact
 - name: build artifacts
   hosts: build
   become: yes
 
   tasks:
-    - name: insure maven is present
+    - name: ensure maven is present
       apt:
         name: maven
         state: present
 
-    - name: insure git is present
+    - name: ensure git is present
       apt:
         name: git
         state: present
 
-    - name: insure repo is cloned
-      ansible.builtin.git:
+    - name: ensure jdk is present
+      apt:
+        name: default-jdk
+        state: present
+
+    - name: Ensure boxfuse-sample-java-war-hello is present
+      git:
+        repo: "https://github.com/boxfuse/boxfuse-sample-java-war-hello.git"
+        dest: /home/boxfuse-sample-java-war-hello
         clone: yes
-        dest: /root
-        #recursive: yes
-        repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+
+    - name: package boxfuse
+      command: mvn -f /home/boxfuse-sample-java-war-hello/pom.xml
+
+- name: webapp
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: ensure tomcat is present
+      apt:
+        name: tomcat9
+        state: present
+
+    - name: ensure jdk is present
+      apt:
+        name: default-jdk
+        state: present
+
+    - name: Ensure webapp is moved
+      synchronize:
+        src: /home/boxfuse/target/hello-1.0.war
+        dest: /var/lib/tomcat9/webapps
+      delegate_to: 10.129.0.20
